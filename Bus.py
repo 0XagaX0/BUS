@@ -1,3 +1,4 @@
+import json
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
@@ -69,10 +70,22 @@ def valider():
     if d == a:
         messagebox.showwarning("Trajet invalide", "Le départ et l'arrivée doivent être différents.")
         return
+    donnees = {
+        "depart" : d,
+        "arriver" : a,
+        "date" : date_entry.get(),
+        "places": int(places.get())
+    }
+
+    with open("reservation.json","w",encoding="utf-8") as f:
+        json.dump(donnees, f, ensure_ascii=False, indent=4)
+        
     resultat.config(
         text=f"Réservation enregistrée :\n{d} → {a}\n"
              f"Le {date_entry.get()} • {places.get()} place(s)"
     )
+
+    
 
 tk.Button(reservation, text="Valider", width=15, command=valider).pack(pady=5)
 
