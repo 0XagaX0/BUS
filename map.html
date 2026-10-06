@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GPS du bus</title>
+</head>
+
+<body>
+
+    <h1>🚌 GPS du bus</h1>
+
+    <p id="status">Recherche de votre position...</p>
+
+    <p id="position"></p>
+
+    <script>
+
+        const socket = new WebSocket(
+            "ws://127.0.0.1:8000/ws"
+        );
+
+
+        socket.onopen = function() {
+
+            document.getElementById("status").innerText =
+                "🟢 GPS connecté";
+
+            commencerGPS();
+
+        };
+
+
+        function commencerGPS() {
+
+            if (!navigator.geolocation) {
+
+                document.getElementById("status").innerText =
+                    "❌ GPS non disponible";
+
+                return;
+            }
+
+
+            navigator.geolocation.watchPosition(
+
+                function(position) {
+
+                    const latitude =
+                        position.coords.latitude;
+
+                    const longitude =
+                        position.coords.longitude;
+
+
+                    document.getElementById("position").innerText =
+                        "Latitude : " + latitude +
+                        "\nLongitude : " + longitude;
+
+
+                    // Envoyer la position au serveur
+                    socket.send(
+                        JSON.stringify({
+                            "latitude": latitude,
+                            "longitude": longitude
+                        })
+                    );
+
+                },
+
+                function(error) {
+
+                    document.getElementById("status").innerText =
+                        "❌ Impossible d'obtenir la position : "
+                        + error.message;
+
+                },
+
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 2000,
+                    timeout: 10000
+                }
+
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>
