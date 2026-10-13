@@ -104,14 +104,14 @@ formulaire.pack(pady=10)
 tk.Label(formulaire, text="Départ", bg="green", fg="white", font=("Arial", 11)).grid(row=0, column=0, sticky="w", padx=10)
 depart = ttk.Combobox(formulaire, values=VILLES, state="readonly", width=18)
 depart.grid(row=1, column=0, padx=10, pady=(0, 15))
-
+"""
 # Bouton inverser
 
     # Mettre à jour les informations
     gps_info.config(
         text=f"Latitude : {latitude:.6f}\n"
              f"Longitude : {longitude:.6f}"
-    )
+    )"""
 
 
 def inverser():
@@ -159,16 +159,11 @@ def valider():
         "places": int(places.get())
     }
 
-<<<<<<< HEAD
-    with open("reservation.json", "w", encoding="utf-8") as f:
-        json.dump(donnees, f, ensure_ascii=False, indent=4)
-=======
     reservations = charger_reservations()
     reservations.append(donnees)
 
     with open(FICHIER_RESERVATIONS,"w",encoding="utf-8") as f:
         json.dump(reservations, f, ensure_ascii=False, indent=4)
->>>>>>> 2787e3c (Consulter reservation)
         
     resultat.config(text=f"Réservation enregistrée :\n{d} → {a}\nLe {date_entry.get()} • {places.get()} place(s)")
 
@@ -356,7 +351,7 @@ tk.Label(
     text="ma reservation",
     font=("Arial", 25)
 ).pack(pady=100)
->>>>>>> c13284d71b77ed2f6fcaeaf032e78c06937185c9
+
 
 
 tk.Label(prereservation, text="Nouvelle Pré-réservation", font=("Arial", 18)).pack(pady=10)
@@ -387,7 +382,7 @@ places_pre.grid(row=5, column=1, padx=10, pady=(0, 15))
 
 resultat_pre = tk.Label(prereservation, text="", bg="orange", fg="white", font=("Arial", 12))
 resultat_pre.pack(pady=5)
-<<<<<<< HEAD
+
 
 def valider_prereservation():
     n = nom_client.get()
@@ -467,9 +462,6 @@ tk.Button(menu, text="Accueil", width=13, command=lambda: afficher(accueil)).pac
 tk.Button(menu, text="Réservation", width=13, command=lambda: afficher(reservation)).pack(pady=5)
 tk.Button(menu, text="Pré-réservation", width=13, command=lambda: afficher(prereservation)).pack(pady=5)
 tk.Button(menu, text="Modifier Date", width=13, command=lambda: afficher(modification)).pack(pady=5)
-=======
-
->>>>>>> c13284d71b77ed2f6fcaeaf032e78c06937185c9
 
 
 # =========================
