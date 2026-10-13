@@ -7,6 +7,44 @@ from datetime import date
 import threading
 import asyncio
 import websockets
+import os
+
+FICHIER_RESERVATIONS = "reservation.json"
+
+def charger_reservations():
+    """Lit le fichier JSON et renvoie la liste des réservations."""
+    if not os.path.exists(FICHIER_RESERVATIONS):
+        return []
+    try:
+        with open(FICHIER_RESERVATIONS, "r", encoding="utf-8") as f:
+            contenu = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return []
+    # Compatibilité avec l'ancien format (un seul dictionnaire)
+    if isinstance(contenu, dict):
+        return [contenu]
+    return contenu
+
+def afficher_reservations():
+    """Remplit le tableau de la page Consulter avec les réservations."""
+    for ligne in tableau.get_children():
+        tableau.delete(ligne)
+
+    reservations = charger_reservations()
+    for i, r in enumerate(reservations, start=1):
+        tableau.insert("", "end", values=(
+            i,
+            r.get("depart", ""),
+            r.get("arriver", ""),
+            r.get("date", ""),
+            r.get("places", "")
+        ))
+
+    nb_reservations.config(text=f"{len(reservations)} réservation(s)")
+
+def ouvrir_consultation():
+    afficher_reservations()   # relit le fichier à chaque ouverture
+    afficher(consultation)
 
 
 VILLES = ["Fès", "Casablanca", "Rabat", "Marrakech", "Tanger", "Meknès", "Agadir", "Oujda"]
@@ -121,8 +159,16 @@ def valider():
         "places": int(places.get())
     }
 
+<<<<<<< HEAD
     with open("reservation.json", "w", encoding="utf-8") as f:
         json.dump(donnees, f, ensure_ascii=False, indent=4)
+=======
+    reservations = charger_reservations()
+    reservations.append(donnees)
+
+    with open(FICHIER_RESERVATIONS,"w",encoding="utf-8") as f:
+        json.dump(reservations, f, ensure_ascii=False, indent=4)
+>>>>>>> 2787e3c (Consulter reservation)
         
     resultat.config(text=f"Réservation enregistrée :\n{d} → {a}\nLe {date_entry.get()} • {places.get()} place(s)")
 
@@ -210,6 +256,7 @@ accueil = tk.Frame(conteneur)
 reservation = tk.Frame(conteneur)
 prereservation = tk.Frame(conteneur)
 suivi = tk.Frame(conteneur)
+consultation = tk.Frame(conteneur)
 
 formulaire = tk.Frame(reservation)
 formulaire.pack(pady=10)
@@ -255,7 +302,7 @@ resultat.pack(pady=5)
 tk.Button(reservation, text="Valider", width=15, command=valider).pack(pady=5)
 
 
-for page in (accueil, reservation, prereservation,suivi):
+for page in (accueil, reservation, prereservation,suivi,consultation):
     page.grid(row=0, column=0, sticky="nsew")
 
 
@@ -275,18 +322,27 @@ bonton3 = tk.Button(
     text="Prereservation",
     width=10,command=lambda: afficher(prereservation)
 )
+
 bonton4 = tk.Button(
+    menu,
+    text="Consulter reservation",
+    width=15,
+    command=ouvrir_consultation
+)
+
+bonton5 = tk.Button(
     menu,
     text="Suivi du bus",
     width=15,
     command=lambda: afficher(suivi)
 )
 
-
 bonton1.pack(pady=5)
 bonton2.pack(pady=5)
 bonton3.pack(pady=5)
 bonton4.pack(pady=5)
+bonton5.pack(pady=5)
+
 
 
 tk.Label(
@@ -481,6 +537,33 @@ gps_info = tk.Label(
 )
 
 gps_info.pack(pady=5)
+
+
+
+tk.Label(consultation, text="Mes réservations",
+         font=("Arial", 18)).pack(pady=10)
+
+colonnes = ("n", "depart", "arrivee", "date", "places")
+tableau = ttk.Treeview(consultation, columns=colonnes,
+                       show="headings", height=10)
+
+tableau.heading("n", text="N°")
+tableau.heading("depart", text="Départ")
+tableau.heading("arrivee", text="Arrivée")
+tableau.heading("date", text="Date")
+tableau.heading("places", text="Places")
+
+tableau.column("n", width=40, anchor="center")
+tableau.column("depart", width=110)
+tableau.column("arrivee", width=110)
+tableau.column("date", width=90, anchor="center")
+tableau.column("places", width=60, anchor="center")
+
+tableau.pack(fill="both", expand=True, padx=10, pady=5)
+
+nb_reservations = tk.Label(consultation, text="", font=("Arial", 11))
+nb_reservations.pack(pady=5)
+
 
 afficher(accueil)
 
