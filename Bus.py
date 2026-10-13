@@ -304,24 +304,31 @@ for page in (accueil, reservation, prereservation,suivi,consultation):
 bonton1 = tk.Button(
     menu,
     text="Acceuil",
-    width=10,command=lambda: afficher(accueil)
+    width=15,
+      height=3,
+      command=lambda: afficher(accueil)
 )
 
 bonton2 = tk.Button(
     menu,
     text="Reservation",
-    width=10,command=lambda: afficher(reservation)
+    width=15,
+      height=3,
+      command=lambda: afficher(reservation)
 )
 bonton3 = tk.Button(
     menu,
     text="Prereservation",
-    width=10,command=lambda: afficher(prereservation)
+    width=15,
+      height=3,
+      command=lambda: afficher(prereservation)
 )
 
 bonton4 = tk.Button(
     menu,
     text="Consulter reservation",
     width=15,
+    height=3,
     command=ouvrir_consultation
 )
 
@@ -329,6 +336,7 @@ bonton5 = tk.Button(
     menu,
     text="Suivi du bus",
     width=15,
+      height=3,
     command=lambda: afficher(suivi)
 )
 
@@ -456,12 +464,12 @@ tk.Button(modification, text="2. Enregistrer la nouvelle date", width=25, comman
 
 
 
-tk.Label(menu, text="Menu", font=("Arial", 14, "bold"), bg="#f0f0f0").pack(pady=20)
+"""tk.Label(menu, text="Menu", font=("Arial", 14, "bold"), bg="#f0f0f0").pack(pady=20)
 
 tk.Button(menu, text="Accueil", width=13, command=lambda: afficher(accueil)).pack(pady=5)
 tk.Button(menu, text="Réservation", width=13, command=lambda: afficher(reservation)).pack(pady=5)
 tk.Button(menu, text="Pré-réservation", width=13, command=lambda: afficher(prereservation)).pack(pady=5)
-tk.Button(menu, text="Modifier Date", width=13, command=lambda: afficher(modification)).pack(pady=5)
+tk.Button(menu, text="Modifier Date", width=13, command=lambda: afficher(modification)).pack(pady=5)"""
 
 
 # =========================
