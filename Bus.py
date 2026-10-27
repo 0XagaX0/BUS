@@ -245,9 +245,9 @@ tableau.pack(fill="both", expand=True, padx=10, pady=5)
 nb_reservations = tk.Label(consultation, text="", font=("Arial", 11))
 nb_reservations.pack(pady=5)
 # BOUTON US9 ICI
-tk.Button(consultation, text="⚠️ Simuler Annulation Compagnie (US9)", bg="red", fg="white", command=annuler_trajet_compagnie).pack(pady=10)
+tk.Button(consultation, text=" Simuler Annulation Compagnie ", bg="red", fg="white", command=annuler_trajet_compagnie).pack(pady=10)
 
-# Notifications US9
+# Notifications 
 tk.Label(notifications_page, text="Notifications - Annulations", font=("Arial", 18)).pack(pady=10)
 colonnes_n = ("date", "message", "statut")
 tableau_notif = ttk.Treeview(notifications_page, columns=colonnes_n, show="headings", height=10)
