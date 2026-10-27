@@ -46,7 +46,7 @@ def sauvegarder_notification(notif):
     with open(FICHIER_NOTIFICATIONS, "w", encoding="utf-8") as f:
         json.dump(notifs, f, ensure_ascii=False, indent=4)
 
-# ========== WINDOW UNIQUE ==========
+
 window = tk.Tk()
 window.title("Gestion de Réservations - BUS")
 window.geometry("850x600")
@@ -69,7 +69,7 @@ for page in (accueil, reservation, prereservation, suivi, consultation, notifica
 def afficher(page):
     page.tkraise()
 
-# ========== US9 - LOGIQUE ANNULATION ==========
+
 def demander_remboursement():
     messagebox.showinfo("Remboursement", "Demande de remboursement envoyée. Vous serez remboursé sous 48h.")
     # ici on pourrait changer statut
@@ -245,7 +245,7 @@ tableau.pack(fill="both", expand=True, padx=10, pady=5)
 nb_reservations = tk.Label(consultation, text="", font=("Arial", 11))
 nb_reservations.pack(pady=5)
 # BOUTON US9 ICI
-tk.Button(consultation, text=" Simuler Annulation Compagnie ", bg="red", fg="white", command=annuler_trajet_compagnie).pack(pady=10)
+tk.Button(consultation, text="  Annulation Compagnie ", bg="blue", fg="white", command=annuler_trajet_compagnie).pack(pady=10)
 
 # Notifications 
 tk.Label(notifications_page, text="Notifications - Annulations", font=("Arial", 18)).pack(pady=10)
