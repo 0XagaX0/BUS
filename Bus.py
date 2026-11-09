@@ -529,7 +529,7 @@ tk.Label(
 ).pack()
 
 
-# Trajet virtuel du bus
+# Trajet virtuel du bus  
 trajet = [
     (34.0333, -5.0000),
     (34.0340, -4.9995),
